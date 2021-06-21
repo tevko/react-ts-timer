@@ -1,21 +1,29 @@
 import React, { useState, useRef } from 'react';
 import './timerStyle.scss';
 
+interface RefObject<T> {
+  current: T | null;
+}
+
 const Timer = () => {
   const [timer, setTimer] = useState(false);
-  const paused = useRef(false);
+  const paused: RefObject = useRef(false);
   const [origTime, setOrigTime] = useState();
   const [tapToRestart, setTapToRestart] = useState(false);
-  const startOrResumeTimer = (wasPaused = false) => {
+  const startOrResumeTimer = (wasPaused: boolean = false) => {
     setTimer(true);
-    let prevPausedTime = 0;
+    let prevPausedTime: number = 0;
     if (wasPaused) {
       paused.current = false;
       prevPausedTime = origTime;
     }
-    const T = Date.now() / 1000;
-    const interval = setInterval(() => {
-      const elapsedTime = (Date.now() / 1000 - T + prevPausedTime).toFixed(1);
+    const T: number = Date.now() / 1000;
+    const interval: number | undefined = setInterval(() => {
+      const elapsedTime: number = (
+        Date.now() / 1000 -
+        T +
+        prevPausedTime
+      ).toFixed(1);
       setOrigTime(Number(elapsedTime));
       if (elapsedTime >= 5.0 || paused.current) {
         setTimer(false);
@@ -46,9 +54,11 @@ const Timer = () => {
     <div className="timerContainer" onClick={toggleTimerStates}>
       <svg height="310" width="310">
         <circle
-          className={`circle ${tapToRestart === false ? '' : 'animateCircle'} ${
-              paused.current && 'pauseAnimateCircle'
-          } ${(timer || paused.current) && 'animateCircle'}`}
+          className={`circle ${
+            tapToRestart === false ? '' : 'animateCircle'
+          } ${paused.current && 'pauseAnimateCircle'} ${(timer ||
+            paused.current) &&
+            'animateCircle'}`}
           cx="150"
           cy="150"
           r="150"
