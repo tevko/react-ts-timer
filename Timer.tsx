@@ -7,7 +7,7 @@ interface RefObject<T> {
 
 const Timer = () => {
   const [timer, setTimer] = useState(false);
-  const paused: RefObject = useRef(false);
+  const paused: RefObject<boolean> = useRef(false);
   const [origTime, setOrigTime] = useState();
   const [tapToRestart, setTapToRestart] = useState(false);
   const startOrResumeTimer = (wasPaused: boolean = false) => {
@@ -19,7 +19,7 @@ const Timer = () => {
     }
     const T: number = Date.now() / 1000;
     const interval: number | undefined = setInterval(() => {
-      const elapsedTime: number = (
+      const elapsedTime: string = (
         Date.now() / 1000 -
         T +
         prevPausedTime
