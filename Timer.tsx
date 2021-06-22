@@ -1,18 +1,18 @@
-import React, { useState, useRef } from 'react';
+import React, { FunctionComponent, useState, useRef } from 'react';
 import './timerStyle.scss';
 
 interface RefObject<T> {
   current: T | null;
 }
 
-const Timer = () => {
+const Timer: FunctionComponent = () => {
   const [timer, setTimer] = useState(false);
   const paused: RefObject<boolean> = useRef(false);
   const [origTime, setOrigTime] = useState();
   const [tapToRestart, setTapToRestart] = useState(false);
   const startOrResumeTimer = (wasPaused: boolean = false) => {
     setTimer(true);
-    let prevPausedTime: number = 0;
+    let prevPausedTime: number|undefined = 0;
     if (wasPaused) {
       paused.current = false;
       prevPausedTime = origTime;
